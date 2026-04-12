@@ -1,0 +1,267 @@
+﻿{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Admin Dashboard" %} | {% trans "Online Book Store" %}{% endblock %}
+
+{% block content %}
+<section class="admin-hero">
+    <div>
+        <p class="admin-badge">{% trans "Main Admin Dashboard" %}</p>
+        <h1>{% trans "Store Control Center" %}</h1>
+        <p>{% trans "Manage catalog, pricing, scheduled discounts, and order operations from one dashboard." %}</p>
+    </div>
+    <div class="admin-quick-links">
+        <a href="{% url 'home' %}" class="btn-link">{% trans "View Storefront" %}</a>
+    </div>
+</section>
+
+<section class="admin-metrics">
+    <article class="metric-card">
+        <p>{% trans "Total Books" %}</p>
+        <h2>{{ total_books }}</h2>
+    </article>
+    <article class="metric-card">
+        <p>{% trans "Total Orders" %}</p>
+        <h2>{{ total_orders }}</h2>
+    </article>
+    <article class="metric-card">
+        <p>{% trans "Pending Orders" %}</p>
+        <h2>{{ pending_orders }}</h2>
+    </article>
+    <article class="metric-card">
+        <p>{% trans "Active Discounts" %}</p>
+        <h2>{{ active_discounts }}</h2>
+    </article>
+    <article class="metric-card metric-wide">
+        <p>{% trans "Total Revenue" %}</p>
+        <h2>${{ total_revenue|floatformat:2 }}</h2>
+    </article>
+</section>
+
+<section class="admin-layout admin-layout-top">
+    <article class="panel">
+        <div class="section-head">
+            <h2>{% trans "Add New Book" %}</h2>
+        </div>
+
+        <form method="post" class="admin-category-row">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="create_category">
+            <label>{% trans "Add Category (English)" %} {{ category_form.name }}</label>
+            <label>{% trans "Category (Persian)" %} {{ category_form.name_fa }}</label>
+            <button type="submit">{% trans "Create Category" %}</button>
+        </form>
+
+        {% if book_form.errors %}
+            <p class="field-error">{% trans "Please correct the Add Book form fields." %}</p>
+        {% endif %}
+
+        <form method="post" class="form-grid compact-admin-form">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="create_book">
+            <div class="admin-form-grid">
+                <label>{% trans "Category" %} {{ book_form.category }}</label>
+                <label>{% trans "Title" %} {{ book_form.title }}</label>
+                <label>{% trans "Title (Persian)" %} {{ book_form.title_fa }}</label>
+                <label>{% trans "Author" %} {{ book_form.author }}</label>
+                <label>{% trans "Author (Persian)" %} {{ book_form.author_fa }}</label>
+                <label>{% trans "ISBN" %} {{ book_form.isbn }}</label>
+                <label>{% trans "Price" %} {{ book_form.price }}</label>
+                <label>{% trans "Stock" %} {{ book_form.stock }}</label>
+                <label>{% trans "Cover URL" %} {{ book_form.cover_url }}</label>
+                <label class="full-row">{% trans "Description" %} {{ book_form.description }}</label>
+                <label class="full-row">{% trans "Description (Persian)" %} {{ book_form.description_fa }}</label>
+            </div>
+            <button type="submit">{% trans "Add Book" %}</button>
+        </form>
+    </article>
+
+    <article class="panel">
+        <div class="section-head">
+            <h2>{% trans "Create Discount Campaign" %}</h2>
+        </div>
+
+        {% if discount_form.errors %}
+            <p class="field-error">{% trans "Please correct the discount campaign form fields." %}</p>
+        {% endif %}
+
+        <form method="post" class="form-grid compact-admin-form">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="create_discount">
+            <label>{% trans "Book" %} {{ discount_form.book }}</label>
+            <label>{% trans "Campaign Name" %} {{ discount_form.name }}</label>
+            <label>{% trans "Discount Percentage" %} {{ discount_form.percentage }}</label>
+            <label>{% trans "Starts At" %} {{ discount_form.starts_at }}</label>
+            <label>{% trans "Ends At" %} {{ discount_form.ends_at }}</label>
+            <label class="checkbox-row">{{ discount_form.is_active }} {% trans "Enable this campaign now" %}</label>
+            <button type="submit">{% trans "Create Discount" %}</button>
+        </form>
+
+        <h3>{% trans "Recent Campaigns" %}</h3>
+        {% if discounts %}
+            <ul class="discount-list">
+                {% for discount in discounts %}
+                    <li>
+                        <div>
+                            <strong>{{ discount.book.display_title }}</strong>
+                            <div class="muted">{{ discount.name }} | {{ discount.percentage }}% {% trans "off" %}</div>
+                            <div class="muted">{{ discount.starts_at|date:"Y-m-d H:i" }} {% trans "to" %} {{ discount.ends_at|date:"Y-m-d H:i" }}</div>
+                        </div>
+                        <form method="post" class="admin-inline-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="toggle_discount">
+                            <input type="hidden" name="discount_id" value="{{ discount.id }}">
+                            <button type="submit" class="{% if discount.is_active %}danger-btn{% endif %}">
+                                {% if discount.is_active %}{% trans "Disable" %}{% else %}{% trans "Enable" %}{% endif %}
+                            </button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>{% trans "No discount campaigns yet." %}</p>
+        {% endif %}
+    </article>
+</section>
+
+<section class="admin-layout">
+    <article class="panel">
+        <div class="section-head">
+            <h2>{% trans "Recent Orders" %}</h2>
+            <p class="muted">{% trans "Update order statuses quickly." %}</p>
+        </div>
+
+        {% if orders %}
+            <div class="table-wrap">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>{% trans "Customer" %}</th>
+                            <th>{% trans "Date" %}</th>
+                            <th>{% trans "Total" %}</th>
+                            <th>{% trans "Status" %}</th>
+                            <th>{% trans "Save" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                            <tr>
+                                <td>#{{ order.id }}</td>
+                                <td>
+                                    {{ order.full_name }}
+                                    <div class="muted">{{ order.email }}</div>
+                                </td>
+                                <td>{{ order.created_at|date:"Y-m-d H:i" }}</td>
+                                <td>${{ order.total_price|floatformat:2 }}</td>
+                                <td>
+                                    <select name="status" form="order-form-{{ order.id }}">
+                                        {% for value, label in order_status_choices %}
+                                            <option value="{{ value }}" {% if order.status == value %}selected{% endif %}>{{ label }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                                <td>
+                                    <form id="order-form-{{ order.id }}" method="post" class="admin-inline-form admin-hidden-form">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="action" value="update_order_status">
+                                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                                        <button type="submit">{% trans "Update" %}</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>{% trans "No orders yet." %}</p>
+        {% endif %}
+    </article>
+
+    <article class="panel">
+        <div class="section-head">
+            <h2>{% trans "Low Stock Alerts" %}</h2>
+            <p class="muted">{% trans "Books that need restocking soon." %}</p>
+        </div>
+
+        {% if low_stock_books %}
+            <ul class="low-stock-list">
+                {% for book in low_stock_books %}
+                    <li>
+                        <div>
+                            <strong>{{ book.display_title }}</strong>
+                            <p class="muted">{{ book.display_author }} - {{ book.category.display_name }}</p>
+                        </div>
+                        <span class="stock-pill">{% blocktrans with stock=book.stock %}{{ stock }} left{% endblocktrans %}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>{% trans "Great, no low-stock books right now." %}</p>
+        {% endif %}
+    </article>
+</section>
+
+<section class="panel">
+    <div class="section-head">
+        <h2>{% trans "Inventory and Pricing" %}</h2>
+        <p class="muted">{% trans "Edit base price and stock for all listed books." %}</p>
+    </div>
+
+    <form method="get" class="admin-search-bar">
+        <input type="text" name="book_q" value="{{ book_query }}" placeholder="{% trans 'Search book by title, author, ISBN' %}">
+        <button type="submit">{% trans "Search" %}</button>
+    </form>
+
+    {% if books %}
+        <div class="table-wrap">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>{% trans "Book" %}</th>
+                        <th>{% trans "Category" %}</th>
+                        <th>{% trans "Base Price" %}</th>
+                        <th>{% trans "Live Price" %}</th>
+                        <th>{% trans "Stock" %}</th>
+                        <th>{% trans "Save" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in books %}
+                        <tr>
+                            <td>
+                                <a href="{{ book.get_absolute_url }}">{{ book.display_title }}</a>
+                                <div class="muted">{{ book.display_author }}</div>
+                            </td>
+                            <td>{{ book.category.display_name }}</td>
+                            <td>
+                                <input type="number" step="0.01" name="price" value="{{ book.price }}" min="0.01" form="book-form-{{ book.id }}">
+                            </td>
+                            <td>
+                                ${{ book.current_price|floatformat:2 }}
+                                {% if book.active_discount %}
+                                    <span class="discount-pill">-{{ book.active_discount.percentage }}%</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <input type="number" name="stock" value="{{ book.stock }}" min="0" form="book-form-{{ book.id }}">
+                            </td>
+                            <td>
+                                <form id="book-form-{{ book.id }}" method="post" class="admin-inline-form admin-hidden-form">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="update_book">
+                                    <input type="hidden" name="book_id" value="{{ book.id }}">
+                                    <button type="submit">{% trans "Save" %}</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>{% trans "No books found for this search." %}</p>
+    {% endif %}
+</section>
+{% endblock %}

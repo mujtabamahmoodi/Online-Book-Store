@@ -1,0 +1,96 @@
+﻿{% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_CODE == 'fa' %}rtl{% else %}ltr{% endif %}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% trans "Online Book Store" %}{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script defer src="{% static 'js/main.js' %}"></script>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container nav-wrap">
+            <a href="{% url 'home' %}" class="brand">{% trans "Online Book Store" %}</a>
+            <button class="nav-toggle" aria-label="{% trans 'Toggle navigation' %}">{% trans "Menu" %}</button>
+            <nav class="main-nav">
+                <a href="{% url 'home' %}" class="nav-item nav-catalog">{% trans "Home" %}</a>
+                <a href="{% url 'cart_detail' %}" class="nav-item nav-cart">{% blocktrans %}Cart ({{ cart_items_count }}){% endblocktrans %}</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'order_history' %}" class="nav-item nav-orders">{% trans "My Orders" %}</a>
+                    {% if user.is_staff %}
+                        <a href="{% url 'admin_dashboard' %}" class="nav-item nav-admin">{% trans "Admin Dashboard" %}</a>
+                    {% endif %}
+                    <form action="{% url 'logout' %}" method="post" class="inline-form nav-item nav-logout">
+                        {% csrf_token %}
+                        <button type="submit" class="link-btn">{% trans "Logout" %}</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="nav-item nav-login">{% trans "Login" %}</a>
+                    <a href="{% url 'signup' %}" class="highlight-link nav-item nav-signup">{% trans "Sign Up" %}</a>
+                {% endif %}
+
+                <form action="{% url 'set_language' %}" method="post" class="language-form nav-item nav-language">
+                    {% csrf_token %}
+                    <input name="next" type="hidden" value="{{ request.get_full_path }}">
+                    <select name="language" onchange="this.form.submit()" aria-label="{% trans 'Language' %}">
+                        <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
+                        <option value="fa" {% if LANGUAGE_CODE == 'fa' %}selected{% endif %}>فارسی</option>
+                    </select>
+                </form>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="message {{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <section class="footer-brand">
+                <h3>{% trans "Online Book Store" %}</h3>
+                <p>{% trans "Your trusted place to discover great books in English and Persian." %}</p>
+            </section>
+
+            <section class="footer-links">
+                <h4>{% trans "Quick Links" %}</h4>
+                <a href="{% url 'home' %}">{% trans "Home" %}</a>
+                <a href="{% url 'cart_detail' %}">{% trans "Cart" %}</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'order_history' %}">{% trans "My Orders" %}</a>
+                {% else %}
+                    <a href="{% url 'login' %}">{% trans "Login" %}</a>
+                {% endif %}
+            </section>
+
+            <section class="footer-support">
+                <h4>{% trans "Support" %}</h4>
+                <p>{% trans "Need help with an order? Reach out from your account and we will assist you." %}</p>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'order_history' %}" class="footer-cta">{% trans "Track My Orders" %}</a>
+                {% else %}
+                    <a href="{% url 'signup' %}" class="footer-cta">{% trans "Create Account" %}</a>
+                {% endif %}
+            </section>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>{% blocktrans %}Copyright © Online Book Store. All rights reserved.{% endblocktrans %}</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,576 @@
+﻿msgid ""
+msgstr ""
+"Project-Id-Version: online-book-store\n"
+"POT-Creation-Date: 2026-04-12 00:00+0000\n"
+"PO-Revision-Date: 2026-04-12 00:00+0000\n"
+"Last-Translator: Codex\n"
+"Language-Team: Persian\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "English"
+msgstr "انگلیسی"
+
+msgid "Persian"
+msgstr "فارسی"
+
+msgid "Online Book Store"
+msgstr "فروشگاه آنلاین کتاب"
+
+msgid "Toggle navigation"
+msgstr "تغییر منو"
+
+msgid "Menu"
+msgstr "منو"
+
+msgid "Home"
+msgstr "خانه"
+
+msgid "Catalog"
+msgstr "کاتالوگ"
+
+msgid "Cart (%(cart_items_count)s)"
+msgstr "سبد خرید (%(cart_items_count)s)"
+
+msgid "My Orders"
+msgstr "سفارش‌های من"
+
+msgid "Admin Dashboard"
+msgstr "داشبورد مدیر"
+
+msgid "Logout"
+msgstr "خروج"
+
+msgid "Login"
+msgstr "ورود"
+
+msgid "Sign Up"
+msgstr "ثبت‌نام"
+
+msgid "Language"
+msgstr "زبان"
+
+msgid "Built with Django + SQLite. Ready for free deployment."
+msgstr "ساخته‌شده با جنگو و SQLite. آماده برای استقرار رایگان."
+
+msgid "Your trusted place to discover great books in English and Persian."
+msgstr "جای مطمئن شما برای کشف کتاب‌های عالی به زبان انگلیسی و فارسی."
+
+msgid "Quick Links"
+msgstr "دسترسی سریع"
+
+msgid "Cart"
+msgstr "سبد خرید"
+
+msgid "Support"
+msgstr "پشتیبانی"
+
+msgid "Need help with an order? Reach out from your account and we will assist you."
+msgstr "برای سفارش خود نیاز به کمک دارید؟ از طریق حساب کاربری پیام بدهید تا راهنمایی‌تان کنیم."
+
+msgid "Track My Orders"
+msgstr "پیگیری سفارش‌های من"
+
+msgid "Copyright © Online Book Store. All rights reserved."
+msgstr "تمام حقوق این وب‌سایت برای فروشگاه آنلاین کتاب محفوظ است."
+
+msgid "Book Catalog"
+msgstr "کاتالوگ کتاب‌ها"
+
+msgid "Discover Your Next Great Read"
+msgstr "کتاب بعدی محبوب خود را پیدا کنید"
+
+msgid "Browse our collection, add books to your cart, and place your order in minutes."
+msgstr "مجموعه ما را مرور کنید، کتاب‌ها را به سبد اضافه کنید و در چند دقیقه سفارش دهید."
+
+msgid "Search by title, author, ISBN"
+msgstr "جستجو بر اساس عنوان، نویسنده یا ISBN"
+
+msgid "All Categories"
+msgstr "همه دسته‌بندی‌ها"
+
+msgid "Search"
+msgstr "جستجو"
+
+msgid "cover"
+msgstr "جلد"
+
+msgid "No Cover"
+msgstr "بدون جلد"
+
+msgid "In stock: %(stock)s"
+msgstr "موجودی: %(stock)s"
+
+msgid "Add to Cart"
+msgstr "افزودن به سبد"
+
+msgid "Login to add to cart"
+msgstr "برای افزودن به سبد وارد شوید"
+
+msgid "Out of stock"
+msgstr "ناموجود"
+
+msgid "No books found for your search."
+msgstr "کتابی برای جستجوی شما پیدا نشد."
+
+msgid "Book list pagination"
+msgstr "صفحه‌بندی فهرست کتاب‌ها"
+
+msgid "Previous"
+msgstr "قبلی"
+
+msgid "Page %(number)s of %(total)s"
+msgstr "صفحه %(number)s از %(total)s"
+
+msgid "Next"
+msgstr "بعدی"
+
+msgid "By %(author)s"
+msgstr "نویسنده: %(author)s"
+
+msgid "Discount active until %(ends)s"
+msgstr "تخفیف تا %(ends)s فعال است"
+
+msgid "ISBN: %(isbn)s"
+msgstr "شابک: %(isbn)s"
+
+msgid "Your Cart"
+msgstr "سبد خرید شما"
+
+msgid "Your Shopping Cart"
+msgstr "سبد خرید شما"
+
+msgid "Book"
+msgstr "کتاب"
+
+msgid "Price"
+msgstr "قیمت"
+
+msgid "Quantity"
+msgstr "تعداد"
+
+msgid "Total"
+msgstr "مجموع"
+
+msgid "Action"
+msgstr "عملیات"
+
+msgid "Remove"
+msgstr "حذف"
+
+msgid "Total:"
+msgstr "مجموع:"
+
+msgid "Update Cart"
+msgstr "به‌روزرسانی سبد"
+
+msgid "Proceed to Checkout"
+msgstr "ادامه برای پرداخت"
+
+msgid "Your cart is empty."
+msgstr "سبد خرید شما خالی است."
+
+msgid "Start shopping"
+msgstr "شروع خرید"
+
+msgid "Checkout"
+msgstr "تسویه حساب"
+
+msgid "Place Order"
+msgstr "ثبت سفارش"
+
+msgid "Order Summary"
+msgstr "خلاصه سفارش"
+
+msgid "Order Confirmed"
+msgstr "تایید سفارش"
+
+msgid "Thank you for your order"
+msgstr "از سفارش شما سپاسگزاریم"
+
+msgid "Your order <strong>#%(id)s</strong> has been placed successfully on %(date)s."
+msgstr "سفارش شما با شماره <strong>#%(id)s</strong> در %(date)s با موفقیت ثبت شد."
+
+msgid "Total paid:"
+msgstr "مبلغ پرداخت‌شده:"
+
+msgid "Items"
+msgstr "آیتم‌ها"
+
+msgid "View all orders"
+msgstr "مشاهده همه سفارش‌ها"
+
+msgid "Order #%(id)s"
+msgstr "سفارش #%(id)s"
+
+msgid "Placed %(date)s | Status: %(status)s"
+msgstr "ثبت در %(date)s | وضعیت: %(status)s"
+
+msgid "You do not have any orders yet."
+msgstr "هنوز سفارشی ندارید."
+
+msgid "Create Account"
+msgstr "ایجاد حساب"
+
+msgid "Create Your Account"
+msgstr "حساب خود را بسازید"
+
+msgid "Start Building Your Library"
+msgstr "ساخت کتابخانه شخصی خود را شروع کنید"
+
+msgid "Join today to order books, track deliveries, and save time with a personalized account."
+msgstr "همین امروز عضو شوید تا کتاب سفارش دهید، ارسال‌ها را پیگیری کنید و با حساب شخصی در زمان صرفه‌جویی کنید."
+
+msgid "Secure account with strong password validation"
+msgstr "حساب امن با اعتبارسنجی قوی رمز عبور"
+
+msgid "Quick checkout with saved profile details"
+msgstr "پرداخت سریع با اطلاعات ذخیره‌شده پروفایل"
+
+msgid "Order history for every purchase"
+msgstr "تاریخچه سفارش برای همه خریدها"
+
+msgid "Fill the form below to create your account."
+msgstr "برای ایجاد حساب، فرم زیر را تکمیل کنید."
+
+msgid "Show password"
+msgstr "نمایش رمز عبور"
+
+msgid "Hide password"
+msgstr "پنهان‌کردن رمز عبور"
+
+msgid "Show"
+msgstr "نمایش"
+
+msgid "Hide"
+msgstr "پنهان"
+
+msgid "Already have an account?"
+msgstr "از قبل حساب دارید؟"
+
+msgid "Sign in"
+msgstr "ورود"
+
+msgid "Member Access"
+msgstr "دسترسی اعضا"
+
+msgid "Welcome Back, Reader"
+msgstr "خوش برگشتید"
+
+msgid "Sign in to continue where you left off, manage your orders, and keep your favorite books in one place."
+msgstr "برای ادامه از جایی که متوقف شدید، مدیریت سفارش‌ها و نگه‌داری کتاب‌های موردعلاقه‌تان در یک جا، وارد شوید."
+
+msgid "Fast checkout from saved details"
+msgstr "پرداخت سریع با اطلاعات ذخیره‌شده"
+
+msgid "Order history and status tracking"
+msgstr "تاریخچه سفارش و پیگیری وضعیت"
+
+msgid "Smooth experience on mobile and desktop"
+msgstr "تجربه روان در موبایل و دسکتاپ"
+
+msgid "Sign In"
+msgstr "ورود"
+
+msgid "Enter your account details to continue."
+msgstr "برای ادامه، اطلاعات حساب خود را وارد کنید."
+
+msgid "New here?"
+msgstr "تازه وارد هستید؟"
+
+msgid "Create an account"
+msgstr "ایجاد حساب"
+
+msgid "Logged Out"
+msgstr "خروج انجام شد"
+
+msgid "You are logged out"
+msgstr "شما خارج شدید"
+
+msgid "Thank you for visiting."
+msgstr "از بازدید شما سپاسگزاریم."
+
+msgid "Login again"
+msgstr "ورود دوباره"
+
+msgid "or continue browsing the catalog."
+msgstr "یا مرور کاتالوگ را ادامه دهید."
+
+msgid "Main Admin Dashboard"
+msgstr "داشبورد اصلی مدیر"
+
+msgid "Store Control Center"
+msgstr "مرکز کنترل فروشگاه"
+
+msgid "Manage catalog, pricing, scheduled discounts, and order operations from one dashboard."
+msgstr "مدیریت کاتالوگ، قیمت‌گذاری، تخفیف زمان‌بندی‌شده و عملیات سفارش‌ها از یک داشبورد."
+
+msgid "View Storefront"
+msgstr "مشاهده فروشگاه"
+
+msgid "Total Books"
+msgstr "کل کتاب‌ها"
+
+msgid "Total Orders"
+msgstr "کل سفارش‌ها"
+
+msgid "Pending Orders"
+msgstr "سفارش‌های در انتظار"
+
+msgid "Active Discounts"
+msgstr "تخفیف‌های فعال"
+
+msgid "Total Revenue"
+msgstr "کل درآمد"
+
+msgid "Add New Book"
+msgstr "افزودن کتاب جدید"
+
+msgid "Create a new product directly from dashboard."
+msgstr "ایجاد محصول جدید مستقیم از داشبورد."
+
+msgid "Add Category"
+msgstr "افزودن دسته‌بندی"
+
+msgid "Add Category (English)"
+msgstr "افزودن دسته‌بندی (انگلیسی)"
+
+msgid "Category (Persian)"
+msgstr "دسته‌بندی (فارسی)"
+
+msgid "Create Category"
+msgstr "ایجاد دسته‌بندی"
+
+msgid "Please correct the Add Book form fields."
+msgstr "لطفا فیلدهای فرم افزودن کتاب را اصلاح کنید."
+
+msgid "Category"
+msgstr "دسته‌بندی"
+
+msgid "Title"
+msgstr "عنوان"
+
+msgid "Title (Persian)"
+msgstr "عنوان (فارسی)"
+
+msgid "Author"
+msgstr "نویسنده"
+
+msgid "Author (Persian)"
+msgstr "نویسنده (فارسی)"
+
+msgid "Stock"
+msgstr "موجودی"
+
+msgid "Cover URL"
+msgstr "آدرس تصویر جلد"
+
+msgid "Description"
+msgstr "توضیحات"
+
+msgid "Description (Persian)"
+msgstr "توضیحات (فارسی)"
+
+msgid "Add Book"
+msgstr "افزودن کتاب"
+
+msgid "Create Discount Campaign"
+msgstr "ایجاد کمپین تخفیف"
+
+msgid "Apply discount for a specific date and time period."
+msgstr "اعمال تخفیف برای بازه زمانی مشخص."
+
+msgid "Please correct the discount campaign form fields."
+msgstr "لطفا فیلدهای فرم کمپین تخفیف را اصلاح کنید."
+
+msgid "Campaign Name"
+msgstr "نام کمپین"
+
+msgid "Discount Percentage"
+msgstr "درصد تخفیف"
+
+msgid "Starts At"
+msgstr "شروع"
+
+msgid "Ends At"
+msgstr "پایان"
+
+msgid "Enable this campaign now"
+msgstr "فعال‌سازی این کمپین اکنون"
+
+msgid "Create Discount"
+msgstr "ایجاد تخفیف"
+
+msgid "Recent Campaigns"
+msgstr "کمپین‌های اخیر"
+
+msgid "off"
+msgstr "تخفیف"
+
+msgid "to"
+msgstr "تا"
+
+msgid "Disable"
+msgstr "غیرفعال"
+
+msgid "Enable"
+msgstr "فعال"
+
+msgid "No discount campaigns yet."
+msgstr "هنوز کمپین تخفیفی وجود ندارد."
+
+msgid "Recent Orders"
+msgstr "سفارش‌های اخیر"
+
+msgid "Update order statuses quickly."
+msgstr "به‌سرعت وضعیت سفارش‌ها را به‌روزرسانی کنید."
+
+msgid "Customer"
+msgstr "مشتری"
+
+msgid "Date"
+msgstr "تاریخ"
+
+msgid "Status"
+msgstr "وضعیت"
+
+msgid "Save"
+msgstr "ذخیره"
+
+msgid "Update"
+msgstr "به‌روزرسانی"
+
+msgid "No orders yet."
+msgstr "هنوز سفارشی وجود ندارد."
+
+msgid "Low Stock Alerts"
+msgstr "هشدار موجودی کم"
+
+msgid "Books that need restocking soon."
+msgstr "کتاب‌هایی که به‌زودی نیاز به شارژ موجودی دارند."
+
+msgid "%(stock)s left"
+msgstr "%(stock)s باقی مانده"
+
+msgid "Great, no low-stock books right now."
+msgstr "عالی است، اکنون کتاب کم‌موجودی ندارید."
+
+msgid "Inventory and Pricing"
+msgstr "موجودی و قیمت‌گذاری"
+
+msgid "Edit base price and stock for all listed books."
+msgstr "ویرایش قیمت پایه و موجودی برای همه کتاب‌های نمایش‌داده‌شده."
+
+msgid "Search book by title, author, ISBN"
+msgstr "جستجوی کتاب با عنوان، نویسنده یا ISBN"
+
+msgid "Base Price"
+msgstr "قیمت پایه"
+
+msgid "Live Price"
+msgstr "قیمت فعلی"
+
+msgid "No books found for this search."
+msgstr "برای این جستجو کتابی یافت نشد."
+
+msgid "Street and house number"
+msgstr "خیابان و شماره خانه"
+
+msgid "End time must be later than start time."
+msgstr "زمان پایان باید بعد از زمان شروع باشد."
+
+msgid "Pending"
+msgstr "در انتظار"
+
+msgid "Paid"
+msgstr "پرداخت شده"
+
+msgid "Shipped"
+msgstr "ارسال شده"
+
+msgid "Completed"
+msgstr "تکمیل شده"
+
+msgid "Canceled"
+msgstr "لغو شده"
+
+msgid "Discount end time must be later than start time."
+msgstr "زمان پایان تخفیف باید بعد از زمان شروع باشد."
+
+msgid "\"%(title)s\" is currently out of stock."
+msgstr "\"%(title)s\" در حال حاضر ناموجود است."
+
+msgid "Only %(stock)s copies of \"%(title)s\" are available."
+msgstr "فقط %(stock)s نسخه از \"%(title)s\" موجود است."
+
+msgid "\"%(title)s\" added to your cart."
+msgstr "\"%(title)s\" به سبد خرید شما اضافه شد."
+
+msgid "\"%(title)s\" removed from your cart."
+msgstr "\"%(title)s\" از سبد خرید شما حذف شد."
+
+msgid "Adjusted \"%(title)s\" to available stock (%(stock)s)."
+msgstr "\"%(title)s\" با موجودی فعلی (%(stock)s) تنظیم شد."
+
+msgid "Cart updated."
+msgstr "سبد خرید به‌روزرسانی شد."
+
+msgid "Your cart is empty."
+msgstr "سبد خرید شما خالی است."
+
+msgid "Not enough stock for \"%(title)s\". Please update your cart."
+msgstr "موجودی \"%(title)s\" کافی نیست. لطفا سبد خرید را به‌روزرسانی کنید."
+
+msgid "Order placed successfully."
+msgstr "سفارش با موفقیت ثبت شد."
+
+msgid "Welcome! Your account has been created."
+msgstr "خوش آمدید! حساب شما ایجاد شد."
+
+msgid "Main admin access is required for this page."
+msgstr "برای این صفحه دسترسی مدیر اصلی لازم است."
+
+msgid "Order #%(order_id)s status updated."
+msgstr "وضعیت سفارش #%(order_id)s به‌روزرسانی شد."
+
+msgid "Invalid order status selected."
+msgstr "وضعیت سفارش نامعتبر انتخاب شده است."
+
+msgid "Book '%(title)s' added successfully."
+msgstr "کتاب '%(title)s' با موفقیت اضافه شد."
+
+msgid "Please fix the book form errors and try again."
+msgstr "لطفا خطاهای فرم کتاب را اصلاح کرده و دوباره تلاش کنید."
+
+msgid "Category '%(name)s' created."
+msgstr "دسته‌بندی '%(name)s' ایجاد شد."
+
+msgid "Please fix the category form errors and try again."
+msgstr "لطفا خطاهای فرم دسته‌بندی را اصلاح کرده و دوباره تلاش کنید."
+
+msgid "Invalid stock value for '%(title)s'."
+msgstr "مقدار موجودی برای '%(title)s' نامعتبر است."
+
+msgid "Invalid price value for '%(title)s'."
+msgstr "مقدار قیمت برای '%(title)s' نامعتبر است."
+
+msgid "Updated inventory for '%(title)s'."
+msgstr "موجودی '%(title)s' به‌روزرسانی شد."
+
+msgid "Discount '%(name)s' added for '%(book)s' (%(percentage)s%% off)."
+msgstr "تخفیف '%(name)s' برای '%(book)s' (%(percentage)s%%) اضافه شد."
+
+msgid "Please fix discount form errors and try again."
+msgstr "لطفا خطاهای فرم تخفیف را اصلاح کرده و دوباره تلاش کنید."
+
+msgid "enabled"
+msgstr "فعال شد"
+
+msgid "disabled"
+msgstr "غیرفعال شد"
+
+msgid "Discount '%(name)s' %(state)s."
+msgstr "تخفیف '%(name)s' %(state)s."

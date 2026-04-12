@@ -1,0 +1,21 @@
+﻿{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Order Confirmed" %} | {% trans "Online Book Store" %}{% endblock %}
+
+{% block content %}
+<section class="panel">
+    <h1>{% trans "Thank you for your order" %}</h1>
+    <p>{% blocktrans with id=order.id date=order.created_at|date:"Y-m-d H:i" %}Your order <strong>#{{ id }}</strong> has been placed successfully on {{ date }}.{% endblocktrans %}</p>
+    <p>{% trans "Total paid:" %} <strong>${{ order.total_price }}</strong></p>
+
+    <h2>{% trans "Items" %}</h2>
+    <ul>
+        {% for item in order.items.all %}
+            <li>{{ item.book.display_title }} x {{ item.quantity }} - ${{ item.subtotal }}</li>
+        {% endfor %}
+    </ul>
+
+    <a class="btn-link" href="{% url 'order_history' %}">{% trans "View all orders" %}</a>
+</section>
+{% endblock %}

@@ -1,0 +1,11 @@
+﻿{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Logged Out" %} | {% trans "Online Book Store" %}{% endblock %}
+
+{% block content %}
+<section class="panel auth-panel">
+    <h1>{% trans "You are logged out" %}</h1>
+    <p>{% trans "Thank you for visiting." %} <a href="{% url 'login' %}">{% trans "Login again" %}</a> {% trans "or continue browsing the catalog." %}</p>
+</section>
+{% endblock %}

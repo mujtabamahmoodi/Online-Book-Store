@@ -1,0 +1,26 @@
+﻿{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "My Orders" %} | {% trans "Online Book Store" %}{% endblock %}
+
+{% block content %}
+<section>
+    <h1>{% trans "My Orders" %}</h1>
+    {% if orders %}
+        {% for order in orders %}
+            <article class="panel order-card">
+                <h2>{% blocktrans with id=order.id %}Order #{{ id }}{% endblocktrans %}</h2>
+                <p class="muted">{% blocktrans with date=order.created_at|date:"Y-m-d H:i" status=order.get_status_display %}Placed {{ date }} | Status: {{ status }}{% endblocktrans %}</p>
+                <ul>
+                    {% for item in order.items.all %}
+                        <li>{{ item.book.display_title }} x {{ item.quantity }} - ${{ item.subtotal }}</li>
+                    {% endfor %}
+                </ul>
+                <p><strong>{% trans "Total:" %} ${{ order.total_price }}</strong></p>
+            </article>
+        {% endfor %}
+    {% else %}
+        <p>{% trans "You do not have any orders yet." %}</p>
+    {% endif %}
+</section>
+{% endblock %}

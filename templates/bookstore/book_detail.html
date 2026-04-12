@@ -1,0 +1,49 @@
+﻿{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ book.display_title }} | {% trans "Online Book Store" %}{% endblock %}
+
+{% block content %}
+<article class="book-detail">
+    <div>
+        {% if book.cover_url %}
+            <img src="{{ book.cover_url }}" alt="{{ book.display_title }} {% trans 'cover' %}" class="detail-cover">
+        {% else %}
+            <div class="detail-cover placeholder-cover">{% trans "No Cover" %}</div>
+        {% endif %}
+    </div>
+    <div>
+        <p class="category-chip">{{ book.category.display_name }}</p>
+        <h1>{{ book.display_title }}</h1>
+        <p class="muted">{% blocktrans with author=book.display_author %}By {{ author }}{% endblocktrans %}</p>
+        {% if book.active_discount %}
+            <p class="price">
+                ${{ book.current_price }}
+                <span class="old-price">${{ book.price }}</span>
+                <span class="discount-pill">-{{ book.active_discount.percentage }}%</span>
+            </p>
+            <p class="muted">{% blocktrans with ends=book.active_discount.ends_at|date:"Y-m-d H:i" %}Discount active until {{ ends }}{% endblocktrans %}</p>
+        {% else %}
+            <p class="price">${{ book.price }}</p>
+        {% endif %}
+        <p>{{ book.display_description }}</p>
+        {% if book.isbn %}
+            <p class="muted">{% blocktrans with isbn=book.isbn %}ISBN: {{ isbn }}{% endblocktrans %}</p>
+        {% endif %}
+
+        {% if book.in_stock %}
+            {% if user.is_authenticated %}
+                <form action="{% url 'add_to_cart' book.id %}" method="post" class="cart-actions">
+                    {% csrf_token %}
+                    <input type="number" name="quantity" value="1" min="1" max="{{ book.stock }}">
+                    <button type="submit">{% trans "Add to Cart" %}</button>
+                </form>
+            {% else %}
+                <a class="btn-link" href="{% url 'login' %}?next={{ request.path }}">{% trans "Login to add to cart" %}</a>
+            {% endif %}
+        {% else %}
+            <p class="stock danger">{% trans "Out of stock" %}</p>
+        {% endif %}
+    </div>
+</article>
+{% endblock %}

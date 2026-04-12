@@ -1,0 +1,61 @@
+﻿{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Your Cart" %} | {% trans "Online Book Store" %}{% endblock %}
+
+{% block content %}
+<section>
+    <h1>{% trans "Your Shopping Cart" %}</h1>
+    {% if cart %}
+        <form action="{% url 'update_cart' %}" method="post">
+            {% csrf_token %}
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>{% trans "Book" %}</th>
+                        <th>{% trans "Price" %}</th>
+                        <th>{% trans "Quantity" %}</th>
+                        <th>{% trans "Total" %}</th>
+                        <th>{% trans "Action" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart %}
+                        <tr>
+                            <td>
+                                <a href="{{ item.book.get_absolute_url }}">{{ item.book.display_title }}</a>
+                                <div class="muted">{{ item.book.display_author }}</div>
+                            </td>
+                            <td>${{ item.price }}</td>
+                            <td>
+                                <input type="number" name="quantity_{{ item.book.id }}" value="{{ item.quantity }}" min="1" max="{{ item.book.stock }}">
+                            </td>
+                            <td>${{ item.total_price }}</td>
+                            <td>
+                                <button
+                                    type="submit"
+                                    formaction="{% url 'remove_from_cart' item.book.id %}"
+                                    formmethod="post"
+                                    class="danger-btn"
+                                >
+                                    {% trans "Remove" %}
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="cart-summary">
+                <p><strong>{% trans "Total:" %}</strong> ${{ cart.get_total_price }}</p>
+                <div class="actions-row">
+                    <button type="submit">{% trans "Update Cart" %}</button>
+                    <a class="btn-link" href="{% url 'checkout' %}">{% trans "Proceed to Checkout" %}</a>
+                </div>
+            </div>
+        </form>
+    {% else %}
+        <p>{% trans "Your cart is empty." %} <a href="{% url 'home' %}">{% trans "Start shopping" %}</a>.</p>
+    {% endif %}
+</section>
+{% endblock %}

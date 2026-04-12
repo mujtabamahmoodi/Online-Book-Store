@@ -1,0 +1,35 @@
+﻿{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Checkout" %} | {% trans "Online Book Store" %}{% endblock %}
+
+{% block content %}
+<section class="checkout-layout">
+    <div>
+        <h1>{% trans "Checkout" %}</h1>
+        <form method="post" class="form-grid">
+            {% csrf_token %}
+            {% for field in form %}
+                <label>
+                    {{ field.label }}
+                    {{ field }}
+                    {% if field.errors %}
+                        <span class="field-error">{{ field.errors|join:", " }}</span>
+                    {% endif %}
+                </label>
+            {% endfor %}
+            <button type="submit">{% trans "Place Order" %}</button>
+        </form>
+    </div>
+
+    <aside class="order-summary">
+        <h2>{% trans "Order Summary" %}</h2>
+        <ul>
+            {% for item in cart_items %}
+                <li>{{ item.book.display_title }} x {{ item.quantity }} <strong>${{ item.total_price }}</strong></li>
+            {% endfor %}
+        </ul>
+        <p class="summary-total">{% trans "Total:" %} ${{ cart_total }}</p>
+    </aside>
+</section>
+{% endblock %}

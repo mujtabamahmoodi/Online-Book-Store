@@ -43,6 +43,7 @@ class AdminBookCreateForm(forms.ModelForm):
             "description_fa",
             "price",
             "stock",
+            "cover_image",
             "cover_url",
         ]
         widgets = {

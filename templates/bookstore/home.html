@@ -25,8 +25,8 @@
 <section class="book-grid">
     {% for book in page_obj %}
         <article class="book-card">
-            {% if book.cover_url %}
-                <img src="{{ book.cover_url }}" alt="{{ book.display_title }} {% trans 'cover' %}" class="book-cover">
+            {% if book.cover_display_url %}
+                <img src="{{ book.cover_display_url }}" alt="{{ book.display_title }} {% trans 'cover' %}" class="book-cover">
             {% else %}
                 <div class="book-cover placeholder-cover">{% trans "No Cover" %}</div>
             {% endif %}

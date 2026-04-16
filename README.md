@@ -65,6 +65,31 @@ python manage.py runserver
 
 Open `http://127.0.0.1:8000/`.
 
+## Add Images in Local Storage
+
+Use this project path for book cover images:
+
+- `media/book_covers/`
+
+Ways to add your own images:
+
+1. Admin Dashboard upload (recommended):
+- Open `http://127.0.0.1:8000/` and go to the Admin Dashboard as a staff user.
+- In **Add New Book**, use **Cover Upload** and leave **Cover URL** empty.
+- Django stores the uploaded file in `media/book_covers/`.
+
+2. Manual file copy:
+- Copy image files into `media/book_covers/` (example: `dune.jpg`).
+- Link the image to a book from Django shell:
+
+```bash
+python manage.py shell -c "from bookstore.models import Book; b=Book.objects.get(slug='dune'); b.cover_image='book_covers/dune.jpg'; b.save(update_fields=['cover_image'])"
+```
+
+Notes:
+- Local media is served from `/media/` while `DEBUG=True`.
+- Files inside `media/book_covers/` can be committed to Git and deployed with the project.
+
 ## Language Support
 
 - Switch language from the header dropdown (`English` / `فارسی`).
@@ -79,12 +104,25 @@ As of **April 12, 2026**, PythonAnywhere's free account is still available, with
 
 ### PythonAnywhere Deploy Steps (Free)
 
+This repo is now prepared for PythonAnywhere deployment:
+- production-safe static files are supported with WhiteNoise
+- `seed_books` assigns the repo's local cover files for books that have them
+- `media/book_covers/` can be pushed to GitHub and served from PythonAnywhere
+
 1. Push this project to GitHub.
 2. Create a free PythonAnywhere account.
-3. Open a Bash console and clone your repo.
+3. In PythonAnywhere, open a **Bash** console and clone your repo with HTTPS:
+
+```bash
+git clone https://github.com/YOUR-USERNAME/YOUR-REPO.git
+cd YOUR-REPO
+```
+
 4. Create a virtual environment and install dependencies:
 
 ```bash
+python3.13 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
@@ -94,20 +132,62 @@ pip install -r requirements.txt
 python manage.py migrate
 ```
 
-6. In the Web tab, create a web app and configure the WSGI file to point to this project (follow the official guide linked above).
-7. In the Web tab, map static files URL `/static/` to your project static directory and run:
+6. Seed sample books and create an admin account:
+
+```bash
+python manage.py seed_books
+python manage.py createsuperuser
+```
+
+7. Collect static files:
 
 ```bash
 python manage.py collectstatic
 ```
 
-8. Set environment variables (`DJANGO_SECRET_KEY`, `DEBUG=0`, `ALLOWED_HOSTS=<your-pythonanywhere-domain>`), reload the app.
+8. In the **Web** tab, create a new **Manual configuration** web app using the same Python version as your virtualenv.
+9. Set the virtualenv path in the Web tab to:
+
+```bash
+/home/YOUR-USERNAME/YOUR-REPO/.venv
+```
+
+10. Edit the WSGI file so it points to your project:
+
+```python
+import os
+import sys
+
+path = '/home/YOUR-USERNAME/YOUR-REPO'
+if path not in sys.path:
+    sys.path.append(path)
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'config.settings'
+os.environ['DJANGO_SECRET_KEY'] = 'REPLACE-WITH-A-LONG-RANDOM-SECRET'
+os.environ['DEBUG'] = '0'
+os.environ['USE_HTTPS'] = '1'
+os.environ['ALLOWED_HOSTS'] = 'YOUR-USERNAME.pythonanywhere.com'
+os.environ['CSRF_TRUSTED_ORIGINS'] = 'https://YOUR-USERNAME.pythonanywhere.com'
+
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()
+```
+
+11. In the **Static files** section of the Web tab, add these mappings:
+
+- URL: `/static/` -> Directory: `/home/YOUR-USERNAME/YOUR-REPO/staticfiles`
+- URL: `/media/` -> Directory: `/home/YOUR-USERNAME/YOUR-REPO/media`
+
+12. Reload the web app from the Web tab.
+13. Open `https://YOUR-USERNAME.pythonanywhere.com/`.
 
 ## Production Notes
 
 - Set `DEBUG=0` in production.
 - Use a strong `DJANGO_SECRET_KEY`.
 - Set `ALLOWED_HOSTS` and `CSRF_TRUSTED_ORIGINS` correctly.
+- Set `USE_HTTPS=1` on PythonAnywhere so secure cookies and HTTPS redirect work.
+- Run `python manage.py seed_books` after deployment because `db.sqlite3` is not stored in Git.
 - Run `python manage.py check --deploy` before going live.
 
 ## Useful Commands
@@ -117,4 +197,5 @@ python manage.py test
 python manage.py makemigrations
 python manage.py migrate
 python manage.py seed_books
+python manage.py localize_book_covers
 ```

@@ -1,7 +1,13 @@
+import shutil
 from datetime import timedelta
+from pathlib import Path
+from unittest.mock import patch
 
 from django.contrib.auth.models import Group, User
+from django.core.management import call_command
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
+from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import override
@@ -179,6 +185,32 @@ class BookstoreViewsTests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertTrue(Book.objects.filter(title="New Admin Book").exists())
 
+    def test_admin_can_create_book_with_uploaded_cover(self):
+        self.client.login(username="manager", password="password123")
+        upload = SimpleUploadedFile(
+            "cover.jpg",
+            b"fake image bytes",
+            content_type="image/jpeg",
+        )
+
+        response = self.client.post(
+            reverse("admin_dashboard"),
+            {
+                "action": "create_book",
+                "book-category": self.category.id,
+                "book-title": "Uploaded Cover Book",
+                "book-author": "Admin Author",
+                "book-isbn": "1231231231231",
+                "book-description": "Book with uploaded cover file.",
+                "book-price": "11.99",
+                "book-stock": 3,
+                "book-cover_image": upload,
+            },
+        )
+        self.assertEqual(response.status_code, 302)
+        created = Book.objects.get(title="Uploaded Cover Book")
+        self.assertTrue(created.cover_image.name.startswith("book_covers/"))
+
     def test_admin_can_create_category_from_dashboard(self):
         self.client.login(username="manager", password="password123")
         response = self.client.post(
@@ -240,3 +272,89 @@ class BookstoreViewsTests(TestCase):
         latest_order = Order.objects.latest("id")
         order_item = OrderItem.objects.get(order=latest_order, book=self.book)
         self.assertEqual(str(order_item.price_at_purchase), "7.50")
+
+
+class LocalizeBookCoversCommandTests(TestCase):
+    def setUp(self):
+        self.temp_media = Path.cwd() / "test_media_root"
+        self.temp_media.mkdir(exist_ok=True)
+        self.addCleanup(shutil.rmtree, self.temp_media, True)
+        self.override_media = override_settings(MEDIA_ROOT=str(self.temp_media))
+        self.override_media.enable()
+        self.addCleanup(self.override_media.disable)
+
+        self.category = Category.objects.create(name="Technology", slug="technology")
+        self.book = Book.objects.create(
+            category=self.category,
+            title="Clean Code",
+            slug="clean-code",
+            author="Robert C. Martin",
+            description="A handbook of software craftsmanship.",
+            price="18.00",
+            stock=9,
+            cover_url="https://example.com/clean-code.jpg",
+        )
+        self.invalid_book = Book.objects.create(
+            category=self.category,
+            title="Broken Cover",
+            slug="broken-cover",
+            author="Unknown",
+            description="This URL does not return an image.",
+            price="5.00",
+            stock=1,
+            cover_url="https://example.com/not-an-image",
+        )
+
+    def test_localize_book_covers_downloads_images_and_skips_non_images(self):
+        class FakeHeaders:
+            def __init__(self, content_type):
+                self._content_type = content_type
+
+            def get_content_type(self):
+                return self._content_type
+
+        class FakeResponse:
+            def __init__(self, content_type, body):
+                self.headers = FakeHeaders(content_type)
+                self._body = body
+
+            def read(self):
+                return self._body
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, tb):
+                return False
+
+        def fake_urlopen(request, timeout=20):
+            if "not-an-image" in request.full_url:
+                return FakeResponse("text/html", b"<html></html>")
+            return FakeResponse("image/jpeg", b"fake-jpeg-bytes")
+
+        with patch(
+            "bookstore.management.commands.localize_book_covers.urlopen",
+            side_effect=fake_urlopen,
+        ):
+            call_command("localize_book_covers")
+
+        self.book.refresh_from_db()
+        self.invalid_book.refresh_from_db()
+
+        self.assertEqual(self.book.cover_image.name, "book_covers/clean-code.jpg")
+        self.assertTrue(self.book.cover_image.storage.exists(self.book.cover_image.name))
+        self.assertEqual(self.invalid_book.cover_image.name, "")
+
+
+class SeedBooksCommandTests(TestCase):
+    def test_seed_books_assigns_repo_local_cover_images_when_configured(self):
+        call_command("seed_books")
+
+        self.assertEqual(
+            Book.objects.get(slug="clean-code").cover_image.name,
+            "book_covers/clean-code.jpg",
+        )
+        self.assertEqual(
+            Book.objects.get(slug="atomic-habits").cover_image.name,
+            "book_covers/atomic-habits.jpg",
+        )

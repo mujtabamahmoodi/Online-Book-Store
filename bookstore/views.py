@@ -284,7 +284,7 @@ def admin_dashboard(request):
             return redirect("admin_dashboard")
 
         if action == "create_book":
-            book_form = AdminBookCreateForm(request.POST, prefix="book")
+            book_form = AdminBookCreateForm(request.POST, request.FILES, prefix="book")
             if book_form.is_valid():
                 new_book = book_form.save()
                 messages.success(

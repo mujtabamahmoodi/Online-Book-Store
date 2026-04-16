@@ -31,6 +31,7 @@ BOOKS = [
         "description_fa": "روایتی حماسی از سیاست، پیشگویی و بقا در سیاره آراکیس.",
         "price": "12.50",
         "stock": 15,
+        "cover_image": "book_covers/dune.jpg",
         "cover_url": "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80",
     },
     {
@@ -45,6 +46,7 @@ BOOKS = [
         "description_fa": "راهبردهای کاربردی برای ساخت عادت‌های خوب و ترک عادت‌های بد.",
         "price": "14.25",
         "stock": 20,
+        "cover_image": "book_covers/atomic-habits.jpg",
         "cover_url": "https://images.unsplash.com/photo-1528740561666-dc2479dc08ab?auto=format&fit=crop&w=800&q=80",
     },
     {
@@ -59,6 +61,7 @@ BOOKS = [
         "description_fa": "چارچوبی مدرن برای ساخت استارتاپ با آزمایش‌های سریع.",
         "price": "13.40",
         "stock": 11,
+        "cover_image": "book_covers/the-lean-startup.jpg",
         "cover_url": "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=800&q=80",
     },
     {
@@ -73,6 +76,7 @@ BOOKS = [
         "description_fa": "راهنمایی کاربردی برای مهارت نرم‌افزاری و کدهای قابل نگهداری.",
         "price": "18.00",
         "stock": 9,
+        "cover_image": "book_covers/clean-code.jpg",
         "cover_url": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=800&q=80",
     },
     {
@@ -87,6 +91,7 @@ BOOKS = [
         "description_fa": "تاریخچه‌ای کوتاه از انسان از دوران باستان تا امروز.",
         "price": "16.75",
         "stock": 14,
+        "cover_image": "book_covers/sapiens.jpg",
         "cover_url": "https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=800&q=80",
     },
 ]
@@ -120,6 +125,7 @@ class Command(BaseCommand):
                 "price": entry["price"],
                 "stock": entry["stock"],
                 "cover_url": entry["cover_url"],
+                "cover_image": entry.get("cover_image", ""),
                 "title_fa": entry.get("title_fa", ""),
             }
             book, created = Book.objects.get_or_create(
@@ -139,6 +145,9 @@ class Command(BaseCommand):
                 if entry.get("description_fa") and not book.description_fa:
                     book.description_fa = entry["description_fa"]
                     updated_fields.append("description_fa")
+                if entry.get("cover_image") and not book.cover_image:
+                    book.cover_image = entry["cover_image"]
+                    updated_fields.append("cover_image")
                 if updated_fields:
                     book.save(update_fields=updated_fields)
 

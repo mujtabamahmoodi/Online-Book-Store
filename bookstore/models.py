@@ -48,6 +48,7 @@ class Book(models.Model):
     description_fa = models.TextField(blank=True)
     price = models.DecimalField(max_digits=8, decimal_places=2)
     stock = models.PositiveIntegerField(default=0)
+    cover_image = models.FileField(upload_to="book_covers/", blank=True)
     cover_url = models.URLField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -123,6 +124,12 @@ class Book(models.Model):
 
     def get_absolute_url(self) -> str:
         return reverse("book_detail", kwargs={"slug": self.slug})
+
+    @property
+    def cover_display_url(self) -> str:
+        if self.cover_image:
+            return self.cover_image.url
+        return self.cover_url
 
 
 class Order(models.Model):

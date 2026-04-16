@@ -5,3 +5,7 @@ __pycache__/
 .venv/
 venv/
 staticfiles/
+
+media/*
+!media/book_covers/
+!media/book_covers/**
